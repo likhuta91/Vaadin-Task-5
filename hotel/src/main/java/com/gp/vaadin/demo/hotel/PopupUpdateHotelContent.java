@@ -78,28 +78,21 @@ public class PopupUpdateHotelContent extends VerticalLayout {
 		fieldBox.addValueChangeListener(e -> {
 
 			layout.removeAllComponents();
-
+			binderHotelEditForm.clear();
 			if (e.getValue().equals(HotelHelper.NAME)) {
-				binderHotelEditForm.getName().clear();
 				layout.addComponents(fieldBox, binderHotelEditForm.getName(), buttons);
 			} else if (e.getValue().equals(HotelHelper.OPERATES_FROM)) {
-				binderHotelEditForm.getOperatesFrom().clear();
 				layout.addComponents(fieldBox, binderHotelEditForm.getOperatesFrom(), buttons);
 			} else if (e.getValue().equals(HotelHelper.ADDRESS)) {
-				binderHotelEditForm.getAddress().clear();
 				layout.addComponents(fieldBox, binderHotelEditForm.getAddress(), buttons);
 			} else if (e.getValue().equals(HotelHelper.RATING)) {
-				binderHotelEditForm.getRating().clear();
 				layout.addComponents(fieldBox, binderHotelEditForm.getRating(), buttons);
 			} else if (e.getValue().equals(HotelHelper.CATEGORY)) {
-				binderHotelEditForm.getCategory().clear();
 				binderHotelEditForm.getCategory().setItems(categoryService.findAll());
 				layout.addComponents(fieldBox, binderHotelEditForm.getCategory(), buttons);
 			} else if (e.getValue().equals(HotelHelper.DESCRIPTION)) {
-				binderHotelEditForm.getDescription().clear();
 				layout.addComponents(fieldBox, binderHotelEditForm.getDescription(), buttons);
 			} else if (e.getValue().equals(HotelHelper.URL)) {
-				binderHotelEditForm.getUrl().clear();
 				layout.addComponents(fieldBox, binderHotelEditForm.getUrl(), buttons);
 			}
 		});
@@ -111,14 +104,6 @@ public class PopupUpdateHotelContent extends VerticalLayout {
 			instance = new PopupUpdateHotelContent(hotelview);
 		}
 		return instance;
-	}
-
-	public void setHotels(Set<Hotel> hotels) {
-		this.hotels = hotels;
-	}
-
-	public void updateCategoryList() {
-		binderHotelEditForm.getCategory().setItems(categoryService.findAll());
 	}
 
 	public void save(Hotel h) {
@@ -203,6 +188,29 @@ public class PopupUpdateHotelContent extends VerticalLayout {
 		}
 
 		return hotel;
+	}
+
+	public void setHotels(Set<Hotel> hotels) {
+		this.hotels = hotels;
+	}
+
+	public void updateCategoryList() {
+		binderHotelEditForm.getCategory().setItems(categoryService.findAll());
+	}
+
+	public void update(Set<Hotel> hotels) {
+
+		// setting default value
+		fieldBox.setSelectedItem(editableField.get(0));
+
+		// Update selected hotel from grid
+		this.hotels = hotels;
+
+		// Update category list
+		binderHotelEditForm.getCategory().setItems(categoryService.findAll());
+
+		// clear value field
+		binderHotelEditForm.clear();
 	}
 
 }

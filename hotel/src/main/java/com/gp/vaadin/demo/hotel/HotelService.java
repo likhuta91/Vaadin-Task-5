@@ -8,11 +8,13 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 public class HotelService {
 
@@ -44,28 +46,41 @@ public class HotelService {
 
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Hotel> criteria = builder.createQuery(Hotel.class);
+			criteria.distinct(true);
+			Root<Hotel> rootHotel = criteria.from(Hotel.class);
+			Predicate predicate1 = builder.like(rootHotel.get("name"), "%" + nameFilterValue.toLowerCase() + "%");
+			Predicate predicate2 = builder.like(rootHotel.get("address"), "%" + addressFilterValue.toLowerCase() + "%");
+			criteria.select(rootHotel);
+			if (!nameFilterValue.isEmpty() && !addressFilterValue.isEmpty()) {
+
+				criteria.where(predicate1, predicate2);
+			} else if (!nameFilterValue.isEmpty() && addressFilterValue.isEmpty()) {
+
+				criteria.where(predicate1);
+			} else if (nameFilterValue.isEmpty() && !addressFilterValue.isEmpty()) {
+
+				criteria.where(predicate2);
+			}
+
 			criteria.from(Hotel.class);
-			Query<Hotel> q = session.createQuery(criteria);
+			TypedQuery<Hotel> q = session.createQuery(criteria);
 
 			allHotel = q.getResultList();
 
 			for (Hotel hotel : allHotel) {
 
-				boolean namePasses = passesFilter(hotel.getName(), nameFilterValue);
-				boolean addessPpasses = passesFilter(hotel.getAddress(), addressFilterValue);
-
-				if (namePasses && addessPpasses) {
-					try {
-						if (hotel.getCategory() != null) {
-							hotel.setCategory(hotel.getCategory().clone());
-						}
-						arrayList.add(hotel.clone());
-
-					} catch (CloneNotSupportedException ex) {
-						LOGGER.log(Level.SEVERE, null, ex);
+				try {
+					if (hotel.getCategory() != null) {
+						hotel.setCategory(hotel.getCategory().clone());
 					}
+					arrayList.add(hotel.clone());
+
+				} catch (CloneNotSupportedException ex) {
+					LOGGER.log(Level.SEVERE, null, ex);
 				}
+
 			}
+
 			Collections.sort(arrayList, new Comparator<Hotel>() {
 
 				@Override
@@ -79,12 +94,6 @@ public class HotelService {
 				session.close();
 			}
 		}
-
-	}
-
-	private boolean passesFilter(String filter, String value) {
-
-		return value == null || value.isEmpty() || filter.toLowerCase().contains(value.toLowerCase());
 
 	}
 

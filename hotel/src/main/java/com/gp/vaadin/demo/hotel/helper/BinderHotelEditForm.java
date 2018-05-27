@@ -125,9 +125,10 @@ public class BinderHotelEditForm {
 				}
 			}
 		}).bind(Hotel::getPayment, Hotel::setPayment);
-		
-		paymentField.addValueChangeListener(e -> { 
-			Notification.show("It was " + e.getOldValue().toString() + ". Has become " + e.getValue(),Type.ERROR_MESSAGE);
+
+		paymentField.addValueChangeListener(e -> {
+			Notification.show("It was " + e.getOldValue().toString() + ". Has become " + e.getValue(),
+					Type.ERROR_MESSAGE);
 		});
 
 		category.setItems(categoryService.findAll());
@@ -204,6 +205,16 @@ public class BinderHotelEditForm {
 
 	public void setPaymentField(PaymentServiceField paymentField) {
 		this.paymentField = paymentField;
+	}
+
+	public void clear() {
+		name.clear();
+		address.clear();
+		rating.clear();
+		operatesFrom.clear();
+		category.clear();
+		description.clear();
+		url.clear();
 	}
 
 }

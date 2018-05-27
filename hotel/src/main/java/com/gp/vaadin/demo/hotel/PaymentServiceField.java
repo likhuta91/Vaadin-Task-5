@@ -21,7 +21,7 @@ public class PaymentServiceField extends CustomField<PaymentMethod> {
 
 	private PaymentMethod value;
 	private String caption;
-	
+
 	public String getCaption() {
 		return caption;
 	}
@@ -61,10 +61,10 @@ public class PaymentServiceField extends CustomField<PaymentMethod> {
 		content.setMargin(false);
 		paymentMethod.setMargin(false);
 		paymentValue.setMargin(false);
-		
+
 		paymentValue.setWidth(100, Sizeable.Unit.PERCENTAGE);
 		paymentMethod.setWidth(100, Sizeable.Unit.PERCENTAGE);
-		
+
 		content.setWidth(100, Sizeable.Unit.PERCENTAGE);
 		content.setHeight(70, Sizeable.Unit.PIXELS);
 		creditCardValue.setWidth(100, Sizeable.Unit.PERCENTAGE);
@@ -102,7 +102,8 @@ public class PaymentServiceField extends CustomField<PaymentMethod> {
 
 		creditCardValue.addValueChangeListener(e -> {
 			value.setCreditCardValue(e.getValue());
-			Notification.show("It was " + e.getOldValue().toString() + "%. Has become " + e.getValue() + "%",Type.HUMANIZED_MESSAGE);
+			Notification.show("It was " + e.getOldValue().toString() + "%. Has become " + e.getValue() + "%",
+					Type.HUMANIZED_MESSAGE);
 		});
 
 		return content;

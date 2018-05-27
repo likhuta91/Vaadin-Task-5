@@ -125,8 +125,7 @@ public class HotelView extends VerticalLayout implements View {
 
 		bulkUpdateHotel.addClickListener(e -> {
 			Set<Hotel> updateCandidate = hotelGrid.getSelectedItems();
-			popupContent.setHotels(updateCandidate);
-			popupContent.updateCategoryList();
+			popupContent.update(updateCandidate);
 			popup.setPopupVisible(true);
 		});
 

@@ -53,7 +53,7 @@ public class ButtonHelper {
 		close.setWidth(100, Sizeable.Unit.PERCENTAGE);
 		return close;
 	}
-	
+
 	public static Button getUpdateButton(String caption) {
 		Button close = new Button(caption);
 		close.setStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
@@ -61,7 +61,7 @@ public class ButtonHelper {
 		close.setWidth(100, Sizeable.Unit.PERCENTAGE);
 		return close;
 	}
-	
+
 	public static Button getCancelButton() {
 		Button close = new Button("Cancel");
 		close.setStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
